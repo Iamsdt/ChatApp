@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@drawable/login_bcg">
+    android:background="@drawable/login_bcg"
+    tools:context=".ui.login.SignupFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -15,6 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         tools:text="C"
+        android:text="@string/app_icon"
         android:fontFamily="@font/login"
         android:textSize="124sp"
         android:textColor="@color/log_text"
@@ -22,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <TextView
         android:id="@+id/textView2"
@@ -31,6 +33,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         tools:text="Chat App"
+        android:text="@string/app_name"
+        android:fontFamily="@font/arial"
         android:textSize="32sp"
         android:textColor="@color/log_text_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,21 +45,23 @@
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:padding="5dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:hint="Email"
-            android:textColor="@color/colorAccent"
-            android:inputType="textEmailAddress"
+            android:hint="Your Name"
+            android:inputType="textPersonName"
             android:maxLines="1"
-            android:textColorHint="@color/log_text"/>
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/log_text"
+            tools:ignore="HardcodedText" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -65,7 +71,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:padding="5dp"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -73,30 +78,54 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:hint="*******"
+            android:hint="@string/email_level"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
             android:textColor="@color/colorAccent"
+            android:textColorHint="@color/log_text"
+            tools:hint="Your Email" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass_level"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textColorHint="@color/log_text"/>
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/log_text"
+            tools:hint="*******" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        tools:text="Log In"
+        android:layout_marginTop="8dp"
+        android:background="@color/log_btn"
+        android:elevation="5dp"
+        android:shadowRadius="5"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/log_text"
         android:textSize="24sp"
         android:textStyle="normal"
-        android:shadowRadius="5"
-        android:textColor="@color/log_text"
-        android:textAllCaps="false"
-        android:elevation="5dp"
-        android:background="@color/log_btn"
-        style="@style/Widget.AppCompat.Button.Borderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+        tools:ignore="HardcodedText" />
 
 
     <TextView
@@ -106,66 +135,29 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:text="Already have a account?"
         android:textColor="@color/log_text"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.316"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:text="Don't have account?" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button">
-
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="5dp"
-            android:background="@drawable/ic_facebook"/>
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="5dp"
-            android:background="@drawable/ic_linkedin" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="32dp"
-            android:background="@drawable/ic_github"
-            android:layout_height="32dp"
-            android:elevation="5dp"
-            app:srcCompat="@drawable/ic_github" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/signupTxt"
+        android:id="@+id/loginTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/colorAccent"
+        android:layout_marginStart="4dp"
+        android:textColor="?attr/colorAccent"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.455"
-        tools:text="Create one" />
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.00"
+        android:text=" Log In"
+        tools:ignore="HardcodedText" />
+
 </android.support.constraint.ConstraintLayout>

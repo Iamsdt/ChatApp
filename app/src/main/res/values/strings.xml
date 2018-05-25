@@ -12,4 +12,5 @@
     <string name="pass_level">Password</string>
     <string name="title_activity_update_details">UpdateDetails</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="email_confirm_label">A confirmation code sent to your Email. Please input that code to verify.</string>
 </resources>
