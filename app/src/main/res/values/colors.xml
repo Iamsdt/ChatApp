@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="c1">#4a148c</color>
+    <color name="c2">#431180</color>
+
+    <color name="log_text">#ddd6e6</color>
+    <color name="log_text_name">#a68aca</color>
+    <color name="log_btn">#350d66</color>
+
+</resources>
