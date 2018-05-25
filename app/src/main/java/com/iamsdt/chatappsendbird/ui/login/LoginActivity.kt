@@ -12,7 +12,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (savedInstanceState == null){
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SignupFragment.newInstance())
+                    .replace(R.id.container, LoginFragment.newInstance())
                     .commitNow()
         }
     }

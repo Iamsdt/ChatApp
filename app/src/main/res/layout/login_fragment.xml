@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/email_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -63,7 +63,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout4"
+        android:id="@+id/pass_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -72,7 +72,7 @@
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/email_lay">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/pass_lay"
         tools:ignore="HardcodedText" />
 
 
@@ -137,7 +137,7 @@
         app:layout_constraintTop_toBottomOf="@+id/forgetPass">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/googleBtn"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -145,7 +145,7 @@
             android:background="@drawable/ic_search"/>
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/fbBtn"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -153,7 +153,7 @@
             android:background="@drawable/ic_facebook" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/twitterBtn"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:elevation="5dp"
