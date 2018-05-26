@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity"
             android:theme="@style/login"/>
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>

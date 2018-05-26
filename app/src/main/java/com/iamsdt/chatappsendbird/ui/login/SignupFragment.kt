@@ -2,17 +2,22 @@ package com.iamsdt.chatappsendbird.ui.login
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.iamsdt.chatappsendbird.R
+import com.iamsdt.chatappsendbird.ui.MainActivity
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventSignupSuccessful
+import com.iamsdt.chatappsendbird.utils.SpUtils
 import com.iamsdt.chatappsendbird.utils.model.EventMessage
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.login_activity.*
 import kotlinx.android.synthetic.main.signup_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -22,7 +27,7 @@ import javax.inject.Inject
 class SignupFragment : Fragment(),HasSupportFragmentInjector {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dInjector: DispatchingAndroidInjector<Fragment>
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -30,8 +35,10 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
     @Inject
     lateinit var bus: EventBus
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> =
-            dispatchingAndroidInjector
+    @Inject
+    lateinit var spUtils: SpUtils
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dInjector
 
     companion object {
         fun newInstance() = SignupFragment()
@@ -48,7 +55,7 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
+        dInjector.maybeInject(this)
         super.onActivityCreated(savedInstanceState)
 
         button.setOnClickListener {
@@ -57,7 +64,7 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
             val pass = pass_lay.editText?.text ?: ""
 
             if (isValid(email, pass)) {
-                viewModel.signup(name,email,pass)
+                viewModel.signup(email,pass)
             } else {
                 //something wrong
                 if (isEmailValid(email)){
@@ -65,6 +72,10 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
                 } else{
                     email_lay.error = "Please input email"
                 }
+            }
+
+            if (name.isNotEmpty()){
+                spUtils.saveDisplayName(name)
             }
         }
 
@@ -95,8 +106,18 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveEvent(eventMessage: EventMessage){
         if (eventMessage.key == Tag){
-            TODO()
+            //we have multiple event in same tag
+            //so use message to classify
+            if (eventMessage.message == eventSignupSuccessful){
+                startActivity(Intent(activity,MainActivity::class.java))
+            } else{
+                show("Something went wrong, please try again")
+            }
         }
     }
 
+
+    fun Fragment.show(text: String){
+        Snackbar.make(container,text,Snackbar.LENGTH_SHORT).show()
+    }
 }

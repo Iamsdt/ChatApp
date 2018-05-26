@@ -9,6 +9,7 @@ import android.app.Activity
 import android.os.Bundle
 import com.iamsdt.chatappsendbird.di.DaggerMyComponent
 import com.iamsdt.chatappsendbird.di.MyComponent
+import com.iamsdt.chatappsendbird.utils.ext.LifeCycle
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.DispatchingAndroidInjector
@@ -43,28 +44,4 @@ class MyApp : DaggerApplication() {
             }
         })
     }
-
-    abstract class LifeCycle : ActivityLifecycleCallbacks {
-        override fun onActivityPaused(activity: Activity?) {
-        }
-
-        override fun onActivityResumed(activity: Activity?) {
-        }
-
-        override fun onActivityStarted(activity: Activity?) {
-        }
-
-        override fun onActivityDestroyed(activity: Activity?) {
-        }
-
-        override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        }
-
-        override fun onActivityStopped(activity: Activity?) {
-        }
-
-        override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        }
-    }
-
 }

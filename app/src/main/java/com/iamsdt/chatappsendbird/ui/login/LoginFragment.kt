@@ -12,7 +12,6 @@ import com.iamsdt.chatappsendbird.R
 import com.iamsdt.chatappsendbird.utils.model.EventMessage
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.login_fragment.*
 import org.greenrobot.eventbus.EventBus
@@ -50,7 +49,7 @@ class LoginFragment : Fragment(),HasSupportFragmentInjector {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         //inject
-        AndroidSupportInjection.inject(this)
+        dispatchingAndroidInjector.maybeInject(this)
 
         super.onActivityCreated(savedInstanceState)
 
@@ -112,9 +111,7 @@ class LoginFragment : Fragment(),HasSupportFragmentInjector {
     //handle event
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveEvent(eventMessage: EventMessage){
-        if (eventMessage.key == Tag){
-            TODO()
-        }
+
     }
 
 }

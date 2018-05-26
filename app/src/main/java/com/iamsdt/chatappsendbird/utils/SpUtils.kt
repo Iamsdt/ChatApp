@@ -8,21 +8,37 @@ package com.iamsdt.chatappsendbird.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.APP_RUN_FIRST_TIME
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.APP_UTILS_SP
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.NAME
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USER_SP
 
 class SpUtils(val context: Context){
 
     fun isAppRunForFirstTime()
-            = sp.getBoolean(ConstantUtils.APP_RUN_FIRST_TIME, false)
+            = sp.getBoolean(APP_RUN_FIRST_TIME, false)
 
 
     fun setAppRunFirstTime(){
         sp.edit {
-            putBoolean(ConstantUtils.APP_RUN_FIRST_TIME,true)
+            putBoolean(APP_RUN_FIRST_TIME,true)
         }
     }
 
+    fun saveDisplayName(name:CharSequence){
+        userSp.edit {
+            putString(NAME,name.toString())
+        }
+    }
+
+    fun getName() = userSp.getString(NAME,"")
+
     private val sp:SharedPreferences =
-            context.getSharedPreferences(ConstantUtils.APP_UTILS_SP,
+            context.getSharedPreferences(APP_UTILS_SP,
+                    Context.MODE_PRIVATE)
+
+    private val userSp:SharedPreferences =
+            context.getSharedPreferences(USER_SP,
                     Context.MODE_PRIVATE)
 
 }
