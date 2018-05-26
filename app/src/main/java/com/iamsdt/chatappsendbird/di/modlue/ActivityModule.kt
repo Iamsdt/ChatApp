@@ -10,6 +10,7 @@ package com.iamsdt.chatappsendbird.di.modlue
 import com.iamsdt.chatappsendbird.ui.SplashScreen
 import com.iamsdt.chatappsendbird.ui.login.LoginFragment
 import com.iamsdt.chatappsendbird.ui.login.SignupFragment
+import com.iamsdt.chatappsendbird.utils.ConnectivityChangeReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -23,4 +24,7 @@ abstract class ActivityModule{
     abstract fun loginFragment():LoginFragment
     @ContributesAndroidInjector
     abstract fun signUpFragment():SignupFragment
+
+    @ContributesAndroidInjector
+    abstract fun connection():ConnectivityChangeReceiver
 }

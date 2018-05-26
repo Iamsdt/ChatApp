@@ -22,5 +22,11 @@ class ConstantUtils{
 
         const val eventConfirmEmailSend = "eventConfirmEmailSend"
 
+        //network
+        const val internet = "internet"
+        const val connected = "connected"
+        const val noInternet = "noInternet"
+
+
     }
 }

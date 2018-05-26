@@ -2,6 +2,9 @@ package com.iamsdt.chatappsendbird.ui.login
 
 import android.arch.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventConfirmEmailSend
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventLoginError
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventLoginSuccessful
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventSignupError
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventSignupSuccessful
 import com.iamsdt.chatappsendbird.utils.model.EventMessage
@@ -17,7 +20,9 @@ class LoginViewModel @Inject constructor(
         auth.signInWithEmailAndPassword(email.toString(),pass.toString())
                 .addOnCompleteListener({
                     if (it.isSuccessful){
-                        bus.post(EventMessage(LoginFragment.Tag,"Login",1))
+                        bus.post(EventMessage(LoginFragment.Tag, eventLoginSuccessful,1))
+                    } else{
+                        bus.post(EventMessage(LoginFragment.Tag,eventLoginError,0))
                     }
                 })
     }
@@ -44,7 +49,7 @@ class LoginViewModel @Inject constructor(
                         val user = auth.currentUser
                         user?.sendEmailVerification()?.addOnCompleteListener({
                             if (it.isSuccessful){
-                                bus.post(EventMessage(SignupFragment.Tag,"Verify email send",1))
+                                bus.post(EventMessage(SignupFragment.Tag,eventConfirmEmailSend,1))
                             }
                         })
                     } else{
@@ -54,7 +59,14 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    fun confirmEmail(code:CharSequence){
-        val user = auth.currentUser
+    fun forgetPass(charSequence: CharSequence){
+        auth.sendPasswordResetEmail(charSequence.toString())
+                .addOnCompleteListener({
+                    if (it.isSuccessful){
+                        bus.post(EventMessage(LoginFragment.Tag,eventConfirmEmailSend,1))
+                    } else{
+                        bus.post(EventMessage(LoginFragment.Tag,eventConfirmEmailSend,0))
+                    }
+                })
     }
 }

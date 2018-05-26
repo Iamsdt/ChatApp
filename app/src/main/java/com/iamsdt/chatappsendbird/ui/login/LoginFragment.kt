@@ -2,6 +2,7 @@ package com.iamsdt.chatappsendbird.ui.login
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.iamsdt.chatappsendbird.R
+import com.iamsdt.chatappsendbird.ui.MainActivity
+import com.iamsdt.chatappsendbird.utils.ConstantUtils
 import com.iamsdt.chatappsendbird.utils.model.EventMessage
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.login_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -49,7 +54,7 @@ class LoginFragment : Fragment(),HasSupportFragmentInjector {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         //inject
-        dispatchingAndroidInjector.maybeInject(this)
+        AndroidSupportInjection.inject(this)
 
         super.onActivityCreated(savedInstanceState)
 
@@ -89,6 +94,20 @@ class LoginFragment : Fragment(),HasSupportFragmentInjector {
                     ?.replace(R.id.container, SignupFragment.newInstance())
                     ?.commitNow()
         }
+
+        forgetPass.setOnClickListener {
+
+            val email = email_lay.editText?.text ?: ""
+
+            if (isEmailValid(email)){
+                viewModel.forgetPass(email)
+            } else{
+                email_lay.error = "Please input email"
+                Toasty.error(activity!!, "Please insert email",
+                        Toast.LENGTH_SHORT, true).show()
+            }
+
+        }
     }
 
     private fun isValid(email: CharSequence, pass: CharSequence) =
@@ -111,7 +130,36 @@ class LoginFragment : Fragment(),HasSupportFragmentInjector {
     //handle event
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveEvent(eventMessage: EventMessage){
+        if (eventMessage.key == Tag){
+            if (eventMessage.message == ConstantUtils.eventLoginSuccessful) {
+                Toasty.success(activity!!, "Login successfully",
+                        Toast.LENGTH_SHORT, true).show()
+                startActivity(Intent(activity, MainActivity::class.java))
+            } else {
+                Toasty.error(activity!!, "Some thing went wrong! please try again.",
+                        Toast.LENGTH_SHORT, true).show()
+            }
 
+            if (eventMessage.message == ConstantUtils.eventConfirmEmailSend) {
+                if (eventMessage.status == 0){
+                    Toasty.error(activity!!, "Something wrong! We don't find your email",
+                            Toast.LENGTH_SHORT, true).show()
+                } else{
+                    Toasty.success(activity!!, "A email send to your email address",
+                            Toast.LENGTH_SHORT, true).show()
+                }
+            }
+        }
+
+        if (eventMessage.key == ConstantUtils.internet){
+            if (eventMessage.status == 0){
+                Toasty.warning(activity!!, "no internet",
+                        Toast.LENGTH_SHORT, true).show()
+            } else{
+                Toasty.success(activity!!, "Connection is back",
+                        Toast.LENGTH_SHORT, true).show()
+            }
+        }
     }
 
 }

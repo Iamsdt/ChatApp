@@ -10,10 +10,7 @@ import android.os.Bundle
 import com.iamsdt.chatappsendbird.di.DaggerMyComponent
 import com.iamsdt.chatappsendbird.di.MyComponent
 import com.iamsdt.chatappsendbird.utils.ext.LifeCycle
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.*
 import javax.inject.Inject
 
 class MyApp : DaggerApplication() {
@@ -39,7 +36,7 @@ class MyApp : DaggerApplication() {
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
                 super.onActivityCreated(activity, savedInstanceState)
                 activity?.let {
-                    dInjector.maybeInject(it)
+                    AndroidInjection.inject(it)
                 }
             }
         })

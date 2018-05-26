@@ -4,27 +4,30 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.iamsdt.chatappsendbird.R
 import com.iamsdt.chatappsendbird.ui.MainActivity
+import com.iamsdt.chatappsendbird.utils.ConstantUtils
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventConfirmEmailSend
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventSignupSuccessful
 import com.iamsdt.chatappsendbird.utils.SpUtils
 import com.iamsdt.chatappsendbird.utils.model.EventMessage
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.login_activity.*
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.signup_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
-class SignupFragment : Fragment(),HasSupportFragmentInjector {
+class SignupFragment : Fragment(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var dInjector: DispatchingAndroidInjector<Fragment>
@@ -42,11 +45,11 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
 
     companion object {
         fun newInstance() = SignupFragment()
-        val Tag:String = SignupFragment::class.java.simpleName
+        val Tag: String = SignupFragment::class.java.simpleName
     }
 
     private val viewModel: LoginViewModel by lazy {
-        ViewModelProviders.of(this,factory).get(LoginViewModel::class.java)
+        ViewModelProviders.of(this, factory).get(LoginViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +58,7 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        dInjector.maybeInject(this)
+        AndroidSupportInjection.inject(this)
         super.onActivityCreated(savedInstanceState)
 
         button.setOnClickListener {
@@ -64,17 +67,17 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
             val pass = pass_lay.editText?.text ?: ""
 
             if (isValid(email, pass)) {
-                viewModel.signup(email,pass)
+                viewModel.signup(email, pass)
             } else {
                 //something wrong
-                if (isEmailValid(email)){
+                if (isEmailValid(email)) {
                     pass_lay.error = "Please input password"
-                } else{
+                } else {
                     email_lay.error = "Please input email"
                 }
             }
 
-            if (name.isNotEmpty()){
+            if (name.isNotEmpty()) {
                 spUtils.saveDisplayName(name)
             }
         }
@@ -104,20 +107,36 @@ class SignupFragment : Fragment(),HasSupportFragmentInjector {
 
     //handle event
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onReceiveEvent(eventMessage: EventMessage){
-        if (eventMessage.key == Tag){
+    fun onReceiveEvent(eventMessage: EventMessage) {
+        if (eventMessage.key == Tag) {
             //we have multiple event in same tag
             //so use message to classify
-            if (eventMessage.message == eventSignupSuccessful){
-                startActivity(Intent(activity,MainActivity::class.java))
-            } else{
-                show("Something went wrong, please try again")
+            if (eventMessage.message == eventSignupSuccessful) {
+                Toasty.success(activity!!, "Account Created Successfully",
+                        Toast.LENGTH_SHORT, true).show()
+                startActivity(Intent(activity, MainActivity::class.java))
+            } else {
+                Toasty.error(activity!!, "Some thing went wrong! please try again.",
+                        Toast.LENGTH_SHORT, true).show()
+            }
+
+
+            if (eventMessage.message == eventConfirmEmailSend) {
+                Toasty.info(activity!!,
+                        "A confirmation email is send. Follow the email for further support",
+                        Toast.LENGTH_SHORT, true).show()
             }
         }
-    }
 
 
-    fun Fragment.show(text: String){
-        Snackbar.make(container,text,Snackbar.LENGTH_SHORT).show()
+        if (eventMessage.key == ConstantUtils.internet){
+            if (eventMessage.status == 0){
+                Toasty.warning(activity!!, "no internet",
+                        Toast.LENGTH_SHORT, true).show()
+            } else{
+                Toasty.success(activity!!, "Connection is back",
+                        Toast.LENGTH_SHORT, true).show()
+            }
+        }
     }
 }

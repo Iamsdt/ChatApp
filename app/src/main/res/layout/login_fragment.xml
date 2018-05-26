@@ -161,6 +161,7 @@
             app:srcCompat="@drawable/ic_twitter" />
     </LinearLayout>
 
+    <!--suppress AndroidDomInspection -->
     <TextView
         android:id="@+id/signupTxt"
         android:layout_width="wrap_content"
@@ -177,6 +178,7 @@
         android:text="Create one"
         tools:ignore="HardcodedText" />
 
+    <!--suppress AndroidDomInspection -->
     <TextView
         android:id="@+id/forgetPass"
         android:layout_width="wrap_content"
