@@ -8,6 +8,7 @@ package com.iamsdt.chatappsendbird.di.modlue
 
 
 import com.iamsdt.chatappsendbird.ui.SplashScreen
+import com.iamsdt.chatappsendbird.ui.login.LoginActivity
 import com.iamsdt.chatappsendbird.ui.login.LoginFragment
 import com.iamsdt.chatappsendbird.ui.login.SignupFragment
 import com.iamsdt.chatappsendbird.utils.ConnectivityChangeReceiver
@@ -21,7 +22,11 @@ abstract class ActivityModule{
     abstract fun splashScreen():SplashScreen
 
     @ContributesAndroidInjector
+    abstract fun loginActibity():LoginActivity
+
+    @ContributesAndroidInjector
     abstract fun loginFragment():LoginFragment
+
     @ContributesAndroidInjector
     abstract fun signUpFragment():SignupFragment
 

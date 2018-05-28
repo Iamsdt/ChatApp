@@ -38,9 +38,9 @@ class SignupFragment : Fragment(), HasSupportFragmentInjector {
     @Inject
     lateinit var bus: EventBus
 
+
     @Inject
     lateinit var spUtils: SpUtils
-
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = dInjector
 
     companion object {

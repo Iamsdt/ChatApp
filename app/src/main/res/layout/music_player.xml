@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Shudipto Trafder
+  ~ at  5/27/18 4:49 PM.
+  -->
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/music_player"
+    tools:context=".ui.MainActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="200dp"
+        android:backgroundTint="@color/deep_orange_400"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".45"
+        app:layout_constraintWidth_percent=".8">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_003_music_player" />
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
+        tools:text="My heart will go on"
+        android:textSize="28sp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/grey_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Unknown artist"
+        android:textSize="21sp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="@color/grey_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:progress="70"
+        android:progressTint="@color/grey_900"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:padding="5dp"
+        android:textColor="@color/grey_0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:text="4:80" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="5dp"
+        android:textColor="@color/grey_0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:text="6:40" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:weightSum="6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView27"
+            app:srcCompat="@drawable/ic_favorite_black_24dp" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawingCacheQuality="high"
+            android:layout_weight="1"
+            app:backgroundTint="@color/light_blue_500"
+            app:fabSize="mini"
+            app:useCompatPadding="false"
+            app:srcCompat="@drawable/ic_003_back" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_weight="2"
+            android:drawingCacheQuality="high"
+            app:backgroundTint="@color/cyan_500"
+            app:useCompatPadding="false"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_011_music_player_1" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_weight="1"
+            app:backgroundTint="@color/light_blue_500"
+            app:fabSize="mini"
+            android:drawingCacheQuality="high"
+            app:srcCompat="@drawable/ic_008_next" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28"
+            app:srcCompat="@drawable/ic_012_music_player" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

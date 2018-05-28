@@ -6,6 +6,7 @@
 package com.iamsdt.chatappsendbird.di.modlue
 
 import android.app.Application
+import com.google.firebase.auth.FirebaseAuth
 import com.iamsdt.chatappsendbird.utils.SpUtils
 import dagger.Module
 import dagger.Provides
@@ -18,4 +19,9 @@ class AppModule{
     @Singleton
     fun getSpUtils(application: Application):SpUtils
             = SpUtils(application)
+
+    @Provides
+    @Singleton
+    fun getAuth():FirebaseAuth
+            = FirebaseAuth.getInstance()
 }

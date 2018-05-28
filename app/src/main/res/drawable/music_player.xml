@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Shudipto Trafder
+  ~ at  5/27/18 5:22 PM.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:angle="225"
+        android:startColor="@color/deep_purple_700"
+        android:centerColor="@color/deep_orange_500"
+        android:endColor="@color/deep_purple_500" />
+
+</shape>

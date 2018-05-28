@@ -11,6 +11,7 @@ class ConstantUtils{
         const val EMAIL = "email"
         const val KEY = "key"
         const val PHONE = "phone"
+        const val USER = "user"
 
 
         //event bus
