@@ -9,8 +9,11 @@ import android.app.Activity
 import android.os.Bundle
 import com.iamsdt.chatappsendbird.di.DaggerMyComponent
 import com.iamsdt.chatappsendbird.di.MyComponent
+import com.iamsdt.chatappsendbird.utils.ext.DebugLogTree
 import com.iamsdt.chatappsendbird.utils.ext.LifeCycle
+import com.iamsdt.chatappsendbird.utils.ext.ReleaseLogTree
 import dagger.android.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MyApp : DaggerApplication() {
@@ -25,6 +28,9 @@ class MyApp : DaggerApplication() {
         super.onCreate()
 
         component.inject(this)
+
+        if (BuildConfig.DEBUG) Timber.plant(DebugLogTree())
+        else Timber.plant(ReleaseLogTree())
 
         registerActivityLifecycleCallbacks(object : LifeCycle(), HasActivityInjector {
 
