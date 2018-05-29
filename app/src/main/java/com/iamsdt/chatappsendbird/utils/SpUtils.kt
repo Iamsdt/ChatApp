@@ -10,8 +10,9 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.APP_RUN_FIRST_TIME
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.APP_UTILS_SP
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.EMAIL
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.KEY
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.NAME
-import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USER
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USER_SP
 
 class SpUtils(val context: Context){
@@ -33,29 +34,21 @@ class SpUtils(val context: Context){
     }
 
     fun getName() = userSp.getString(NAME,"")
-    fun saveLogin(email: CharSequence, pass: CharSequence) {
-        val set = mutableSetOf<String>()
-        set.add(email.toString())
-        set.add(pass.toString())
 
+    fun saveLogin(email: String, pass: String){
         userSp.edit {
-            putStringSet(USER,set)
+            putString(EMAIL,email)
+            putString(KEY,pass)
         }
     }
 
 
-    fun checkLogin():Boolean {
-        val user = getUser()
-        var status = false
-        for (i in user){
-            if (i.isNotEmpty()){
-                status = true
-            }
-        }
-        return status
-    }
+    fun checkLogin():Boolean = userSp.getString(EMAIL,"").isNotEmpty()
 
-    fun getUser():MutableSet<String> =  userSp.getStringSet(USER, mutableSetOf<String>())
+    fun getUser():Pair<String,String>{
+        return Pair(userSp.getString(EMAIL,""),
+                userSp.getString(KEY,""))
+    }
 
     private val sp:SharedPreferences =
             context.getSharedPreferences(APP_UTILS_SP,

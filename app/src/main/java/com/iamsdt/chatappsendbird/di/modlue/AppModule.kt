@@ -7,7 +7,9 @@ package com.iamsdt.chatappsendbird.di.modlue
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
+import com.iamsdt.chatappsendbird.BuildConfig
 import com.iamsdt.chatappsendbird.utils.SpUtils
+import com.mobapphome.mahencryptorlib.MAHEncryptor
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -24,4 +26,8 @@ class AppModule{
     @Singleton
     fun getAuth():FirebaseAuth
             = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun getEncreptor() = MAHEncryptor.newInstance(BuildConfig.PsswordApiKey)
 }

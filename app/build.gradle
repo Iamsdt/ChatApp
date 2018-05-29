@@ -49,6 +49,7 @@ android {
 
     buildTypes.each {
         it.buildConfigField 'String', 'PsswordApiKey', '"02b7fb496f99d7fa9be67616bc5665c6";'
+        it.buildConfigField 'String', 'api', '"B93AD4B7-7249-4F5E-86E5-59F2B06187B7";'
     }
 }
 
@@ -147,6 +148,13 @@ dependencies {
     //timber for logger
     implementation 'com.jakewharton.timber:timber:4.6.0'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

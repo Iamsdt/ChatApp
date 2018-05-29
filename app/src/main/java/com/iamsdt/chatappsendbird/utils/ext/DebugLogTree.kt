@@ -12,8 +12,8 @@ import timber.log.Timber
 class DebugLogTree:Timber.DebugTree(){
 
     override fun createStackElementTag(element: StackTraceElement): String? {
-        super.createStackElementTag(element)
-        return "C:${element.className} - M:${element.methodName} -" +
+        //super.createStackElementTag(element)
+        return "C:${element.className.javaClass.simpleName} - M:${element.methodName} -" +
                 " LN:${element.lineNumber}"
     }
 

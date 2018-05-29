@@ -23,3 +23,5 @@
 -keep class dmax.dialog.** {
     *;
 }
+
+-dontwarn com.sendbird.android.shadow.**

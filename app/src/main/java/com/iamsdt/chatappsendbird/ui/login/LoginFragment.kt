@@ -1,6 +1,7 @@
 package com.iamsdt.chatappsendbird.ui.login
 
 import android.app.AlertDialog
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -13,28 +14,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.iamsdt.chatappsendbird.R
 import com.iamsdt.chatappsendbird.ui.MainActivity
-import com.iamsdt.chatappsendbird.utils.ConstantUtils
-import com.iamsdt.chatappsendbird.utils.SpUtils
-import com.iamsdt.chatappsendbird.utils.model.EventMessage
 import dagger.android.support.AndroidSupportInjection
 import dmax.dialog.SpotsDialog
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.login_fragment.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
-    @Inject
-    lateinit var bus: EventBus
-
-    @Inject
-    lateinit var spUtils: SpUtils
 
     lateinit var alertDialog: AlertDialog
 
@@ -54,26 +44,39 @@ class LoginFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
-
         super.onAttach(context)
-
-        if (spUtils.checkLogin()) {
-            alertDialog = SpotsDialog(context, R.style.progress)
-            alertDialog.show()
-
-            viewModel.login()
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        alertDialog = SpotsDialog(context, R.style.progress)
 
         button.setOnClickListener {
             val email = email_lay.editText?.text ?: ""
             val pass = pass_lay.editText?.text ?: ""
 
             if (isValid(email, pass)) {
+                alertDialog.show()
                 viewModel.loginWithPassword(email, pass)
+                        .observe(this, Observer {
+                            if (it != null) {
+
+                                if (::alertDialog.isInitialized && alertDialog.isShowing)
+                                    alertDialog.dismiss()
+
+                                if (it.status == 1) {
+                                    Timber.i("Login success full")
+                                    Toasty.success(context!!, "Login successfully",
+                                            Toast.LENGTH_SHORT, true).show()
+                                    startActivity(Intent(context, MainActivity::class.java))
+                                } else {
+                                    Timber.i("Login success failed")
+                                    Toasty.error(context!!, "Some thing went wrong! please try again.",
+                                            Toast.LENGTH_SHORT, true).show()
+                                }
+                            }
+                        })
             } else {
                 //something wrong
                 if (isEmailValid(email)) {
@@ -110,7 +113,24 @@ class LoginFragment : Fragment() {
             val email = email_lay.editText?.text ?: ""
 
             if (isEmailValid(email)) {
-                viewModel.forgetPass(email)
+                // complete: 5/29/2018 move to another layout
+                if (::alertDialog.isInitialized) {
+                    alertDialog.setTitle("Sending...")
+                    alertDialog.show()
+                }
+                viewModel.forgetPass(email).observe(this, Observer {
+                    if (it != null){
+                        if (it.status == 1){
+                            activity?.supportFragmentManager?.beginTransaction()
+                                    ?.replace(R.id.container, ResetPasswordFragment.newInstance())
+                                    ?.commitNow()
+                        } else{
+                            Toasty.error(activity!!, "Something went wrong!!",
+                                    Toast.LENGTH_SHORT, true).show()
+                            email_lay.error = "Double check your email"
+                        }
+                    }
+                })
             } else {
                 email_lay.error = "Please input email"
                 Toasty.error(activity!!, "Please insert email",
@@ -126,55 +146,5 @@ class LoginFragment : Fragment() {
     private fun isEmailValid(email: CharSequence) =
             (email.contains("@") && email.contains(".com"))
 
-
-    override fun onStart() {
-        super.onStart()
-        bus.isRegistered(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bus.unregister(this)
-    }
-
-    //handle event
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onReceiveEvent(eventMessage: EventMessage) {
-        if (eventMessage.key == Tag) {
-            if (eventMessage.message == ConstantUtils.eventLoginSuccessful) {
-                Toasty.success(activity!!, "Login successfully",
-                        Toast.LENGTH_SHORT, true).show()
-
-                if (::alertDialog.isInitialized)
-                    if (alertDialog.isShowing) alertDialog.dismiss()
-
-
-                startActivity(Intent(activity, MainActivity::class.java))
-            } else {
-                Toasty.error(activity!!, "Some thing went wrong! please try again.",
-                        Toast.LENGTH_SHORT, true).show()
-            }
-
-            if (eventMessage.message == ConstantUtils.eventConfirmEmailSend) {
-                if (eventMessage.status == 0) {
-                    Toasty.error(activity!!, "Something wrong! We don't find your email",
-                            Toast.LENGTH_SHORT, true).show()
-                } else {
-                    Toasty.success(activity!!, "A email send to your email address",
-                            Toast.LENGTH_SHORT, true).show()
-                }
-            }
-        }
-
-        if (eventMessage.key == ConstantUtils.internet) {
-            if (eventMessage.status == 0) {
-                Toasty.warning(activity!!, "no internet",
-                        Toast.LENGTH_SHORT, true).show()
-            } else {
-                Toasty.success(activity!!, "Connection is back",
-                        Toast.LENGTH_SHORT, true).show()
-            }
-        }
-    }
 
 }
