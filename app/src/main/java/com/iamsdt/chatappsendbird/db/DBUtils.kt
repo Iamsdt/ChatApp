@@ -1,13 +1,18 @@
 /*
  * Developed by Shudipto Trafder
+ * at  6/7/18 6:30 PM.
+ */
+
+/*
+ * Developed by Shudipto Trafder
  * at  6/7/18 5:18 PM.
  */
 
-package com.iamsdt.chatappsendbird.utils
+package com.iamsdt.chatappsendbird.db
 
 class DBUtils{
 
-    object Group{
+    object GroupObj{
 
         val collection = "Group"
 
@@ -19,7 +24,7 @@ class DBUtils{
         const val Chats = "chats"
     }
 
-    object Chats{
+    object ChatsObj{
 
         val collection = "chats"
 
@@ -28,23 +33,18 @@ class DBUtils{
         val model = "chat"
     }
 
+    object UserObj{
 
-    object User{
+        val COLLECTION = "chats"
 
-        val collection = "chats"
-
-        const val Name = "name"
-        const val Description = "des"
-        const val ProfilePic= "profilePic"
-        const val Gender = "gender"
+        const val NAME = "name"
+        const val DES = "des"
+        const val PROFILE_PIC= "profilePic"
+        const val GENDER = "gender"
         const val DOB = "dob"
 
-        const val connected = "connected"
-        const val chatsID = "chatsIds" //write chats ids
-        const val groupIDS = "groupIds"
+        const val CONNECTED = "connected"
+        const val CHATIDS = "chatsIds" //write chats ids
+        const val GROUPIDS = "groupIds"
     }
-
-
-
-
 }

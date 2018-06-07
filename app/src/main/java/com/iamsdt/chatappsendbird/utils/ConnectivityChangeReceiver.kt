@@ -33,17 +33,27 @@ class ConnectivityChangeReceiver
 
         AndroidInjection.inject(this,context)
 
-        val manager = context?.getSystemService(
-                Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val info:NetworkInfo ?= manager.activeNetworkInfo
+        val status = getInternetStatus(context)
 
         //must check null
         //in aeroplane mode it's null
-        if (info !=null && info.isConnectedOrConnecting) {
+        if (status) {
             bus.post(EventMessage(ConstantUtils.internet,ConstantUtils.connected,1))
         } else{
             bus.post(EventMessage(ConstantUtils.internet,ConstantUtils.noInternet,0))
+        }
+    }
+
+    companion object {
+        fun getInternetStatus(context: Context?):Boolean{
+            val manager = context?.getSystemService(
+                    Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            val info:NetworkInfo ?= manager.activeNetworkInfo
+
+            //must check null
+            //in aeroplane mode it's null
+            return info != null && info.isConnectedOrConnecting
         }
     }
 }

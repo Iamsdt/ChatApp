@@ -1,6 +1,9 @@
 package com.iamsdt.chatappsendbird.utils
 
 class ConstantUtils{
+
+    //make this into object
+
     companion object {
         const val APP_UTILS_SP = "APP_UTILS_SP"
         const val APP_RUN_FIRST_TIME = "APP_RUN_FIRST_TIME"
@@ -11,7 +14,8 @@ class ConstantUtils{
         const val EMAIL = "email"
         const val KEY = "key"
         const val PHONE = "phone"
-        const val USER = "user"
+        const val USERID = "userId"
+
 
 
         //event bus
