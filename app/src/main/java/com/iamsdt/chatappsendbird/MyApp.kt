@@ -12,9 +12,11 @@ import com.iamsdt.chatappsendbird.di.MyComponent
 import com.iamsdt.chatappsendbird.utils.ext.DebugLogTree
 import com.iamsdt.chatappsendbird.utils.ext.LifeCycle
 import com.iamsdt.chatappsendbird.utils.ext.ReleaseLogTree
-import dagger.android.*
+import com.sendbird.android.SendBird
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import timber.log.Timber
-import javax.inject.Inject
 
 class MyApp : DaggerApplication() {
 
@@ -32,12 +34,10 @@ class MyApp : DaggerApplication() {
         if (BuildConfig.DEBUG) Timber.plant(DebugLogTree())
         else Timber.plant(ReleaseLogTree())
 
-        registerActivityLifecycleCallbacks(object : LifeCycle(), HasActivityInjector {
 
-            @Inject
-            lateinit var dInjector: DispatchingAndroidInjector<Activity>
+        SendBird.init(BuildConfig.api,this)
 
-            override fun activityInjector(): AndroidInjector<Activity> = dInjector
+        registerActivityLifecycleCallbacks(object : LifeCycle() {
 
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
                 super.onActivityCreated(activity, savedInstanceState)
