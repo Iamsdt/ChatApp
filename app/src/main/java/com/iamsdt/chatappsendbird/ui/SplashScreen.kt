@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.iamsdt.chatappsendbird.BuildConfig
 import com.iamsdt.chatappsendbird.R
 import com.iamsdt.chatappsendbird.ui.login.LoginActivity
@@ -29,17 +30,17 @@ class SplashScreen : AppCompatActivity() {
     @Inject
     lateinit var mahEncryptor:MAHEncryptor
 
+    var timer = 1000L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-
-        var timer = 1500L
 
         if (BuildConfig.DEBUG){
             timer = 100
         }
 
-        if (spUtils.isAppRunForFirstTime()){
+        if (spUtils.isFirstTime){
             //show app intro
             //now login
             val threads = getThread(timer, LoginActivity::class)
@@ -50,40 +51,51 @@ class SplashScreen : AppCompatActivity() {
 
         } else{
 
-            if (spUtils.checkLogin()) {
-                alertDialog = SpotsDialog(this, R.style.progress)
-                alertDialog.show()
+            val user:FirebaseUser ?= auth.currentUser
 
-                val (e,k) = spUtils.getUser()
-
-                auth.signInWithEmailAndPassword(
-                        mahEncryptor.decode(e),
-                        mahEncryptor.decode(k)).addOnCompleteListener({
-
-                    if (::alertDialog.isInitialized &&
-                            alertDialog.isShowing)
-                        alertDialog.dismiss()
-
-                    if (it.isSuccessful){
-                        Toasty.success(this, "Login successfully",
-                                Toast.LENGTH_SHORT, true).show()
-                        toNextActivity(MainActivity::class)
-                    } else{
-                        Toasty.error(this, "Some thing went wrong! Login manually.",
-                                Toast.LENGTH_SHORT, true).show()
-                        toNextActivity(LoginActivity::class)
-                    }
-                })
+            if (user != null){
+                toNextActivity(MainActivity::class)
             } else{
-                val threads = getThread(timer, LoginActivity::class)
-                threads.start()
+                login()
             }
-
-
         }
 
     }
 
 
+    private fun login(){
+
+        if (spUtils.isLogin) {
+            alertDialog = SpotsDialog(this, R.style.progress)
+            alertDialog.show()
+
+            val (e,k) = spUtils.getUser
+            //debugOnly:6/7/2018 Debug only remove latter
+            val email = mahEncryptor.decode(e)
+            val pass = mahEncryptor.decode(k)
+
+
+            auth.signInWithEmailAndPassword(
+                    email,pass).addOnCompleteListener({
+
+                if (::alertDialog.isInitialized &&
+                        alertDialog.isShowing)
+                    alertDialog.dismiss()
+
+                if (it.isSuccessful){
+                    Toasty.success(this, "Login successfully",
+                            Toast.LENGTH_SHORT, true).show()
+                    toNextActivity(MainActivity::class)
+                } else{
+                    Toasty.error(this, "Some thing went wrong! Login manually.",
+                            Toast.LENGTH_SHORT, true).show()
+                    toNextActivity(LoginActivity::class)
+                }
+            })
+        } else{
+            val threads = getThread(timer, LoginActivity::class)
+            threads.start()
+        }
+    }
 
 }

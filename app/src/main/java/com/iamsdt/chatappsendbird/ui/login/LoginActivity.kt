@@ -26,7 +26,8 @@ class LoginActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var bus: EventBus
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dInjector
+    override fun supportFragmentInjector():
+            AndroidInjector<Fragment> = dInjector
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,7 @@ class LoginActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveEvent(eventMessage: EventMessage) {
 
-        // TODO: 5/29/2018 reduce event bus code
+        // complete: 5/29/2018 reduce event bus code
         if (eventMessage.key == LoginFragment.Tag) {
             if (eventMessage.message == ConstantUtils.eventConfirmEmailSend) {
                 if (eventMessage.status == 1) {

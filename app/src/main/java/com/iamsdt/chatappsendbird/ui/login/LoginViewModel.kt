@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.iamsdt.chatappsendbird.utils.ConstantUtils
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventConfirmEmailSend
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.eventSignupError
@@ -77,8 +78,9 @@ class LoginViewModel @Inject constructor(
                             bus.post(EventMessage(SignupFragment.Tag, eventSignupSuccessful, 1))
 
                             //send email verification
-                            val user = auth.currentUser
-                            user?.sendEmailVerification()?.addOnCompleteListener({
+                            val user:FirebaseUser = auth.currentUser!! //no chance to null
+                            spUtils.saveUserID(user.uid)
+                            user.sendEmailVerification().addOnCompleteListener({
                                 if (it.isSuccessful) {
                                     Timber.i("Verification email send")
                                     bus.post(EventMessage(SignupFragment.Tag, eventConfirmEmailSend, 1))
@@ -124,9 +126,10 @@ class LoginViewModel @Inject constructor(
 
     fun login() {
         Timber.i("login requested")
-        val user = spUtils.getUser().toList()
-        val email = mahEncryptor.decode(user[0])
-        val key = mahEncryptor.decode(user[1])
-        loginWithPassword(email, key)
+        val (email,key) = spUtils.getUser
+        //debugOnly:6/7/2018 Debug only remove latter
+        Timber.i("Key and pass:${mahEncryptor.decode(email)}," +
+                " ${mahEncryptor.decode(key)}")
+        loginWithPassword(mahEncryptor.decode(email), mahEncryptor.decode(key))
     }
 }
