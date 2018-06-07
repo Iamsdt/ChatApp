@@ -48,7 +48,7 @@ class MyApp : DaggerApplication() {
                     try {
                         AndroidInjection.inject(it)
                     }catch (e:Exception){
-                        Timber.d(e,"Inject error")
+                        //Timber.d(e,"Inject error")
                     }
                 }
             }
