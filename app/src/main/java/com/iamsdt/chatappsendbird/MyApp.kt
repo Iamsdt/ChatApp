@@ -12,7 +12,7 @@ import com.iamsdt.chatappsendbird.di.MyComponent
 import com.iamsdt.chatappsendbird.utils.ext.DebugLogTree
 import com.iamsdt.chatappsendbird.utils.ext.LifeCycle
 import com.iamsdt.chatappsendbird.utils.ext.ReleaseLogTree
-import com.sendbird.android.SendBird
+import com.rohitss.uceh.UCEHandler
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -35,14 +35,21 @@ class MyApp : DaggerApplication() {
         else Timber.plant(ReleaseLogTree())
 
 
-        SendBird.init(BuildConfig.api,this)
+        //SendBird.init(BuildConfig.api,this)
+
+        UCEHandler.Builder(applicationContext).build()
 
         registerActivityLifecycleCallbacks(object : LifeCycle() {
-
             override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
                 super.onActivityCreated(activity, savedInstanceState)
                 activity?.let {
-                    AndroidInjection.inject(it)
+                    //is their any option to check
+                    // is ContributesAndroidInjector available for this activity first
+                    try {
+                        AndroidInjection.inject(it)
+                    }catch (e:Exception){
+                        Timber.d(e,"Inject error")
+                    }
                 }
             }
         })
