@@ -18,11 +18,11 @@ import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USER_SP
 
 class SpUtils(val context: Context) {
 
-    val isFirstTime get() = sp.getBoolean(APP_RUN_FIRST_TIME, false)
+    val isFirstTime get() = sp.getBoolean(APP_RUN_FIRST_TIME, true)
 
     fun setAppRunFirstTime() {
         sp.edit {
-            putBoolean(APP_RUN_FIRST_TIME, true)
+            putBoolean(APP_RUN_FIRST_TIME, false)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.iamsdt.chatappsendbird.ui
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -43,8 +44,7 @@ class SplashScreen : AppCompatActivity() {
         if (spUtils.isFirstTime){
             //show app intro
             //now login
-            val threads = getThread(timer, LoginActivity::class)
-            threads.start()
+            toNextActivity(LoginActivity::class,Intent.EXTRA_TEXT,"Signup")
 
             //set run
             spUtils.setAppRunFirstTime()

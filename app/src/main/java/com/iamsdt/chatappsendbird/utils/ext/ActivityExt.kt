@@ -20,15 +20,11 @@ fun AppCompatActivity.getThread(timer: Long, clazz: KClass<out AppCompatActivity
 fun AppCompatActivity.toNextActivity(
         clazz: KClass<out AppCompatActivity>,
         extraKey: String = "",
-        extra:Any ?= null){
-    val intent = Intent(this,clazz.java)
+        extra: String = "") {
+    val intent = Intent(this, clazz.java)
 
-    if (extraKey.isNotEmpty()){
-        when(extra){
-            extra is String -> intent.putExtra(extraKey,extra.toString())
-            extra is Int -> intent.putExtra(extraKey, extra to Int)
-            extra is Long -> intent.putExtra(extraKey,extra to Long)
-        }
+    if (extraKey.isNotEmpty()) {
+        intent.putExtra(extraKey,extra)
     }
 
     startActivity(intent)
