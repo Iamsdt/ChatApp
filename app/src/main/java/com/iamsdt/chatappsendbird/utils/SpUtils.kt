@@ -13,48 +13,54 @@ import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.APP_UTILS_SP
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.EMAIL
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.KEY
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.NAME
+import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USERID
 import com.iamsdt.chatappsendbird.utils.ConstantUtils.Companion.USER_SP
 
-class SpUtils(val context: Context){
+class SpUtils(val context: Context) {
 
-    fun isAppRunForFirstTime()
-            = sp.getBoolean(APP_RUN_FIRST_TIME, false)
+    val isFirstTime get() = sp.getBoolean(APP_RUN_FIRST_TIME, false)
 
-
-    fun setAppRunFirstTime(){
+    fun setAppRunFirstTime() {
         sp.edit {
-            putBoolean(APP_RUN_FIRST_TIME,true)
+            putBoolean(APP_RUN_FIRST_TIME, true)
         }
     }
 
-    fun saveDisplayName(name:CharSequence){
+    fun saveDisplayName(name: CharSequence) {
         userSp.edit {
-            putString(NAME,name.toString())
+            putString(NAME, name.toString())
         }
     }
 
-    fun getName() = userSp.getString(NAME,"")
-
-    fun saveLogin(email: String, pass: String){
+    fun saveLogin(email: String, pass: String) {
         userSp.edit {
-            putString(EMAIL,email)
-            putString(KEY,pass)
+            putString(EMAIL, email)
+            putString(KEY, pass)
         }
     }
 
-
-    fun checkLogin():Boolean = userSp.getString(EMAIL,"").isNotEmpty()
-
-    fun getUser():Pair<String,String>{
-        return Pair(userSp.getString(EMAIL,""),
-                userSp.getString(KEY,""))
+    fun saveUserID(uid: String) {
+        userSp.edit {
+            putString(USERID, uid)
+        }
     }
 
-    private val sp:SharedPreferences =
+    val userID: String get() = userSp.getString(USERID, "")
+
+    val isLogin: Boolean get() = userSp.getString(EMAIL, "").isNotEmpty()
+
+    val getUser: Pair<String, String>
+        get() =
+            Pair(userSp.getString(EMAIL, ""),
+                    userSp.getString(KEY, ""))
+
+    private val sp: SharedPreferences
+        get() =
             context.getSharedPreferences(APP_UTILS_SP,
                     Context.MODE_PRIVATE)
 
-    private val userSp:SharedPreferences =
+    private val userSp: SharedPreferences
+        get() =
             context.getSharedPreferences(USER_SP,
                     Context.MODE_PRIVATE)
 
